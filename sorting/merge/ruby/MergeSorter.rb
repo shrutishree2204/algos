@@ -3,10 +3,6 @@ class MergeSorter
 	end
 
 	def merge_sort(array, start, stop)
-		if (stop - start) < 2
-			return
-		end
-
 		if start < stop
 			mid = (start + stop) / 2
 			merge_sort(array, start, mid)
@@ -16,32 +12,36 @@ class MergeSorter
 	end
 
 	def merge(array, start, mid, stop)
-		n1 = mid - start + 1
-		n2 = stop - mid
+		left_length = mid - start + 1
+		right_length = stop - mid
 
 		array1 = Array.new
 		array2 = Array.new
 
-		for i in 0...n1 do
+		for i in 0...left_length do
 			array1 << array[i + start]
 		end
 
-		for i in 0...n2 do
+		for i in 0...right_length do
 			array2 << array[i + mid + 1]
 		end
 
-		i = 0
-		j = 0 
+		left = 0
+		right = 0 
 		k = start
-		while k <= stop do
-			if array1[i] < array2[j]
-				array[k] = array1[i]
-				i = i + 1
+
+		loop do
+			break if left >= left_length and right >= right_length
+
+			if right == right_length or (left < left_length and array1[left] < array2[right])
+				array[k] = array1[left]
+				left += 1
 			else
-				array[k] = array2[j]
-				j = j + 1
+				array[k] = array2[right]
+				right += 1
 			end
-			k = k + 1
+			k += 1
 		end
+
 	end
 end
